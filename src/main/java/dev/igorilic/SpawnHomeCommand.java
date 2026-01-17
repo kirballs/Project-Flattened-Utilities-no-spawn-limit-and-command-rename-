@@ -41,7 +41,7 @@ public class SpawnHomeCommand {
     }
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context, Commands.CommandSelection selection) {
-        dispatcher.register(Commands.literal("spawnHouse")
+        dispatcher.register(Commands.literal("placenbt")
                 .then(Commands.argument("filename", StringArgumentType.string())
                         .executes(ctx -> new SpawnHomeCommand().spawnHouse(
                                 ctx.getSource().getPlayerOrException(),
@@ -112,14 +112,6 @@ public class SpawnHomeCommand {
                 return 0;
             }
 
-            if (tag.getBoolean(NBT_HOUSE_KEY)) {
-                player.sendSystemMessage(
-                        Component.translatable("commands.projectflattenedutilities.house_already_spawned_in")
-                                .plainCopy()
-                                .withStyle(ChatFormatting.YELLOW)
-                );
-                return 0;
-            }
 
             ServerLevel level = player.serverLevel();
             BlockPos pos = player.blockPosition();
@@ -171,9 +163,6 @@ public class SpawnHomeCommand {
                             .plainCopy()
                             .withStyle(ChatFormatting.GREEN)
             );
-
-            tag.putBoolean(NBT_HOUSE_KEY, true);
-            player.getPersistentData().put(ServerPlayer.PERSISTED_NBT_TAG, tag);
 
             return 1;
         } catch (Exception e) {
