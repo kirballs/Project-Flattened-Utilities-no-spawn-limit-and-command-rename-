@@ -22,7 +22,7 @@ jobs:
         run: ./gradlew build
 
       - name: Upload built jar
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mod-jar
           path: build/libs/*.jar
