@@ -41,7 +41,7 @@ public class SpawnHomeCommand {
     }
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context, Commands.CommandSelection selection) {
-        dispatcher.register(Commands.literal("spawnHouse")
+        dispatcher.register(Commands.literal("placenbt")
                 .then(Commands.argument("filename", StringArgumentType.string())
                         .executes(ctx -> new SpawnHomeCommand().spawnHouse(
                                 ctx.getSource().getPlayerOrException(),
@@ -85,14 +85,6 @@ public class SpawnHomeCommand {
         assert player != null;
         CompoundTag tag = player.getPersistentData().getCompound(ServerPlayer.PERSISTED_NBT_TAG);
 
-        if (tag.getBoolean(NBT_HOUSE_KEY)) {
-            tag.remove(NBT_HOUSE_KEY);
-        }
-        player.sendSystemMessage(Component.translatable("commands.projectflattenedutilities.clear_house_success").plainCopy()
-                .withStyle(ChatFormatting.GREEN));
-
-        return 1;
-    }
 
     private int spawnHouse(ServerPlayer player, String filename) {
         try {
@@ -172,8 +164,6 @@ public class SpawnHomeCommand {
                             .withStyle(ChatFormatting.GREEN)
             );
 
-            tag.putBoolean(NBT_HOUSE_KEY, true);
-            player.getPersistentData().put(ServerPlayer.PERSISTED_NBT_TAG, tag);
 
             return 1;
         } catch (Exception e) {
